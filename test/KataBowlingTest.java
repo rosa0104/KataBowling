@@ -47,7 +47,14 @@ public class KataBowlingTest {
     public void testThatOneSPareReturn10() {
         assertEquals(10, KataBowling.calc("-/------------------"));
     }
-
+    @Test
+    public void testThatSpareAndStrikeReturn30() {
+        assertEquals(30, KataBowling.calc("-/X----------------"));
+    }
+    @Test
+    public void testThatStrikeAndSpareReturn30() {
+        assertEquals(30, KataBowling.calc("X-/----------------"));
+    }
     @Test
     public void testThat12XReturn300() {
         assertEquals(300, KataBowling.calc("XXXXXXXXXXXX"));

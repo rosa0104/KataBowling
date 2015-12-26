@@ -46,42 +46,38 @@ public class KataBowling {
     private static int strike(String s, int i) {
         int currentValue = 10;
         //look to result next rolls, sum = result strike value
-        String next = s.substring(i+1, i+2);
-        int nextValue = evaluateIntegerValue(next);
-        String nextNext = s.substring(i+2, i+3);
-        int nextNextValue = evaluateIntegerValue(nextNext);
+        int nextValue = evaluateIntegerValue(s, i+1);
+        int nextNextValue = evaluateIntegerValue(s, i+2);
         return currentValue + nextValue + nextNextValue;
     }
 
 
 
     private static int spare(String s, int i) {
-        //look to result previous roll, 10 - result
-        String previous = s.substring(i - 1, i);
 
-        int previousValue = evaluateIntegerValue(previous);
-
-        int currentValue = 10 - previousValue;
+        int currentValue = evaluateIntegerValue(s, i);
         //look to result next roll, sum = result spare value
-        String next = s.substring(i+1, i+2);
         //evaluate IntegerValue of String Next (außerhalb der Klammer wird die Variable deklariert)
-        int nextValue = evaluateIntegerValue(next);
+        int nextValue = evaluateIntegerValue(s, i+1);
             return currentValue + nextValue;
     }
 
-    private static int evaluateIntegerValue(String stringValue) {
-        int integerValue;
+    private static int evaluateIntegerValue(String wholeGame, int rollToEvaluate) {
+        //get the single roll at index rollToEvaluate from the wholeGame String
+        String stringValue = wholeGame.substring(rollToEvaluate, rollToEvaluate +1);
+
+        //return the integer value of the single roll
         switch (stringValue) {
             case "-":
-                integerValue = 0;
-                break;
+                return 0;
+            case "/": {
+                int previousValue = evaluateIntegerValue(wholeGame, rollToEvaluate - 1);
+                return 10 - previousValue;
+            }
             case "X":
-                integerValue = 10;
-                break;
+                return 10;
             default:
-                integerValue = Integer.parseInt(stringValue);
-                break;
+                return Integer.parseInt(stringValue);
         }
-        return integerValue;
     }
 }
